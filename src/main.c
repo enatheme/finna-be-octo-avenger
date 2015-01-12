@@ -18,9 +18,59 @@ void emulate()
 	char y = 0; //should be 4 bits name in the doc : y
 	char byte = 0; //name in the doc : kk or byte
 
-	//at eatch iteration, we read the memory of the program, load variables and send it to the function designated by the op_code
-	opcode = (short)((cpu0.memory + ip  << 8) + cpu0.memory + ip + 1);
+	//for eatch iteration, we read the memory of the program, load variables and send it to the function designated by the op_code
+	// this should be tested => opcode = (short)((cpu0.memory + ip  << 8) + cpu0.memory + ip + 1);
 	
+	//switch loop on the op_code, call the function and send arguments (addr, nibble, ect depending of the function, no global variables on that), the cpu is global so shouldn't be sent
+	//the op_code in documentation is "All instructions are 2 bytes long and are stored most-significant-byte first. In memory, the first byte of each instruction should be located at an even addresses. If a program includes sprite data, it should be padded so any instructions following it will be properly situated in RAM."
+	switch(op_code)
+	{
+		case 0x0000:
+		{
+			switch(addr)
+			{
+				case 0xE0:
+					instruc_1();
+				break;
+				case 0xEE:
+					instruc_2();
+				break;
+			}
+		break;
+
+		case 0x1000:
+		break;
+		case 0x2000:
+		break;
+		case 0x3000:
+		break;
+		case 0x4000:
+		break;
+		case 0x5000:
+		break;
+		case 0x6000:
+		break;
+		case 0x7000:
+		break;
+		case 0x8000:
+		break;
+		case 0x9000:
+		break;
+		case 0xA000:
+		break;
+		case 0xB000:
+		break;
+		case 0xC000:
+		break;
+		case 0xD000:
+		break;
+		case 0xE000:
+		break;
+		case 0xF000:
+		break;
+		default:
+		break;
+	}	
 }
 
 void open_rom(char *path)
