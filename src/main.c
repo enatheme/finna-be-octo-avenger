@@ -31,14 +31,14 @@ void emulate()
 	//the op_code in documentation is "All instructions are 2 bytes long and are stored most-significant-byte first. In memory, the first byte of each instruction should be located at an even addresses. If a program includes sprite data, it should be padded so any instructions following it will be properly situated in RAM."
 	switch(op_code)
 	{
-		case 0x0000:
+		case (short)0x0000:
 		{
 			switch(addr)
 			{
-				case 0xE0:
-					instruc_1();
+				case (short)0xE0:
+					instruc_1(addr);
 				break;
-				case 0xEE:
+				case (short)0xEE:
 					instruc_2();
 				break;
 			}
@@ -46,33 +46,33 @@ void emulate()
 
 		case (short)0x1000:
 		break;
-		case 0x2000:
+		case (short)0x2000:
 		break;
-		case 0x3000:
+		case (short)0x3000:
 		break;
-		case 0x4000:
+		case (short)0x4000:
 		break;
-		case 0x5000:
+		case (short)0x5000:
 		break;
-		case 0x6000:
+		case (short)0x6000:
 		break;
-		case 0x7000:
+		case (short)0x7000:
 		break;
-		case 0x8000:
+		case (short)0x8000:
 		break;
-		case 0x9000:
+		case (short)0x9000:
 		break;
-		case 0xA000:
+		case (short)0xA000:
 		break;
-		case 0xB000:
+		case (short)0xB000:
 		break;
-		case 0xC000:
+		case (short)0xC000:
 		break;
-		case 0xD000:
+		case (short)0xD000:
 		break;
-		case 0xE000:
+		case (short)0xE000:
 		break;
-		case 0xF000:
+		case (short)0xF000:
 		break;
 		default:
 		break;
