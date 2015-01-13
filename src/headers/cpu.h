@@ -7,3 +7,4 @@ struct Cpu
         char register_I; //the I register (like I robot, but register verion. REGISTER GONNA RULES ZE WORLD !)
 };
 
+extern Cpu cpu0;

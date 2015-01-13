@@ -12,6 +12,7 @@
 //put it in CONST
 #define BLOCK_SIZE sizeof(char) //take the realsize of a char variable
 */
+
 Cpu cpu0;
 
 void emulate()

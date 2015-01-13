@@ -1,3 +1,8 @@
+#ifndef INC_CPU
+#define INC_CPU
+#include "cpu.h"
+#endif
+
 void instruc_1(short addr);
 void instruc_2();
 void instruc_3();
