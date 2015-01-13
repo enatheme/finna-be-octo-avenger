@@ -1,11 +1,17 @@
+#ifndef INC_MAIN
+#define INC_MAIN
+#include "headers/main.h"
+#endif
 
+/*
 #include <stdlib.h>
 #include <stdio.h>
 #include "headers/cpu.h"
+#include "instructions.h"
 
 //put it in CONST
 #define BLOCK_SIZE sizeof(char) //take the realsize of a char variable
-
+*/
 Cpu cpu0;
 
 void emulate()
@@ -38,7 +44,7 @@ void emulate()
 			}
 		break;
 
-		case 0x1000:
+		case (short)0x1000:
 		break;
 		case 0x2000:
 		break;
@@ -70,6 +76,7 @@ void emulate()
 		break;
 		default:
 		break;
+		}
 	}	
 }
 
@@ -105,7 +112,7 @@ void open_rom(char *path)
 				printf("\n");
 			}
 		}
-		close(ptr_file);
+		fclose(ptr_file);
 	}
 	else
 	{
