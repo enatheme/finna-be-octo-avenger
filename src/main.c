@@ -20,28 +20,57 @@ Cpu cpu0;
 void emulate()
 {
 	//variables
-	short op_code = 0;
-	short addr = 0; //should be 12 bits name in the doc : nnn or addr
-	char nibble = 0; //should be 4 bits name in the doc : n or nibble
-	char x = 0; //should be 4 bits name in the doc : x
-	char y = 0; //should be 4 bits name in the doc : y
-	char byte = 0; //name in the doc : kk or byte
+	char dbyte1 = 0;
+	char dbyte2 = 0;
 	
-	//cpu0.memory[cpu0.ip];
-	x = cpu0.memory[cpu0.ip + 1];
-	y = cpu0.memory[cpu0.ip + 2];
-	nibble = cpu0.memory[cpu0.ip + 3];
+	/*
+	 * addr should be 12 bits name in the doc : nnn or addr
+	 * nibble should be 4 bits name in the doc : n or nibble
+	 * x should be 4 bits name in the doc : x
+	 * y should be 4 bits name in the doc : y
+	 * byte name in the doc : kk or byte
+	 * 
+	 *  ___________________
+	 * |0xf0|0x0f|0xf0|0x0f|
+	 * |____|____|____|____|
+	 * |dbyte1   | dbyte2  |
+	 * |_________|_________|
+	 * |    | nnn or addr  |
+	 * |____|____|_________|
+	 * |    |    | kk/byte |
+	 * |____|____|_________|
+	 * |    | x  | y  | n  |
+	 * |____|____|____|____|
+	 * |a char   |a char   |
+	 * |____|____|____|____|
+	 * |4bit|4bit|4bit|4bit|
+	 * |____|____|____|____|
+	 * |0101|1101|0110|1100|
+	 * |____|____|____|____|
+	 * 
+	 * 
+	 * for eatch iteration, we read the memory of the program, load variables and send it to the function designated by the op_code
+	 * this should be tested => opcode = (short)((cpu0.memory + ip  << 8) + cpu0.memory + ip + 1);
+	 * switch loop on the op_code, call the function and send arguments (addr, nibble, ect depending of the function, no global variables on that), the cpu is global so shouldn't be sent
+	 * the op_code in documentation is "All instructions are 2 bytes long and are stored most-significant-byte first. In memory, the first byte of each instruction should be located at an even addresses. If a program includes sprite data, it should be padded so any instructions following it will be properly situated in RAM."
+	 * 
+	 * 			
+	 */  
 	
-	//for eatch iteration, we read the memory of the program, load variables and send it to the function designated by the op_code
-	// this should be tested => opcode = (short)((cpu0.memory + ip  << 8) + cpu0.memory + ip + 1);
+	op_code = cpu0.memory[cpu0.ip] & 0xf0;
+	x = cpu0.memory[cpu0.ip] & 0x0f;
+	y = cpu0.memory[cpu0.ip + 1] & 0xf0;
+	nibble = cpu0.memory[cpu0.ip + 1] & 0x0f;
 	
-	//switch loop on the op_code, call the function and send arguments (addr, nibble, ect depending of the function, no global variables on that), the cpu is global so shouldn't be sent
-	//the op_code in documentation is "All instructions are 2 bytes long and are stored most-significant-byte first. In memory, the first byte of each instruction should be located at an even addresses. If a program includes sprite data, it should be padded so any instructions following it will be properly situated in RAM."
+	addr = (x & 0xf) << 8 | (y & 0xf)  << 4 | (nibble & 0xf) ;
+	byte = (y & 0xf)  << 4 | (nibble & 0xf) ;
+	
+	
 	switch(op_code)
 	{
-		case (short)0x0000:
+		case (dbyte2)0x0000:
 		{
-			switch(addr)
+			switch(dbyte1)
 			{
 				case (short)0xE0:
 					instruc_1(addr);
@@ -111,20 +140,14 @@ void open_rom(char *path)
 		{
 			//we print each nibble of the double byte
 			printf("%.02x-", cpu0.memory[i]& 0xff);
-			printf("%.02x-", cpu0.memory[i + 1]& 0xff);
-			printf("%.02x-", cpu0.memory[i + 2]& 0xff);
-			printf("%.02x  ", cpu0.memory[i + 3]& 0xff);
-			if (i % 4 == 3)
-			{
-				printf(" ");
-			}
+			printf("%.02x  ", cpu0.memory[i + 1]& 0xff);
 
 			// Display 4 double bytes per line
 			if (i % 16 == 4)
 			{
 				printf("\n");
 			}
-			i+= 4 * sizeof(char);
+			i+= 2 * sizeof(char);
 		}
 		#endif
 		
@@ -145,4 +168,25 @@ int main(int argc, char *argv[])
 {
 	cpu0.ip = 0x200;
 	open_rom(argv[1]);
+	printf("HERE\n\n");
+	
+	
+	#ifdef DEBUG
+	char a = 0;
+	char b = 0;
+	for (int i = 0 ; i < 10 ; i++)
+	{
+		a = cpu0.memory[cpu0.ip] & 0xff;
+		b = cpu0.memory[cpu0.ip + 1] & 0xff;
+		
+		/*addr = (x & 0xf) << 8 | (y & 0xf)  << 4 | (nibble & 0xf) ;
+		byte = (y & 0xf)  << 8 | (nibble & 0xf) ;
+		printf("%x - %x - ", addr, byte);// & 0xffffff);
+		printf("[%.02x:%.02x:%.02x]\n", x& 0xf, y& 0xf, nibble& 0xf);*/
+		printf("[%1x:%1x:%1x:%1x]\n", a & 0xf0, a & 0x0f, b & 0xf0, b & 0x0f);
+		cpu0.ip = cpu0.ip + 2 * sizeof(char);
+	}
+	#endif
+	
+	
 }
