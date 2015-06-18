@@ -18,8 +18,14 @@ Cpu cpu0;
 void emulate()
 {
 	//variables
-	char dbyte1 = 0;
-	char dbyte2 = 0;
+	
+	cpu0.dbyte1 = cpu0.memory[cpu0.ip] & 0xff;
+	cpu0.dbyte2 = cpu0.memory[cpu0.ip + 1] & 0xff;
+	
+	#ifdef DEBUG
+		printf("[%1x:%1x:%1x:%1x]\n", cpu0.dbyte1 & 0xf0, cpu0.dbyte1 & 0x0f, cpu0.dbyte2 & 0xf0, cpu0.dbyte2 & 0x0f);
+	#endif
+	
 	
 	/*
 	 * addr should be 12 bits name in the doc : nnn or addr
@@ -63,56 +69,252 @@ void emulate()
 	byte = (y & 0xf)  << 4 | (nibble & 0xf) ;
 	 */  
 	
-	dbyte1 = cpu0.memory[cpu0.ip] & 0xff;
-	dbyte2 = cpu0.memory[cpu0.ip + 1] & 0xff;
-	
-	
-	switch(dbyte1)
+	switch(cpu0.dbyte1 & 0xf0)
 	{
 		case 0x00:
 		{
-			switch(dbyte2)
+			switch(cpu0.dbyte2)
 			{
 				case (char)0xE0:
-					instruc_1(1);
+					#ifdef DEBUG
+						printf("INSTRUCT_2\n");
+					#endif
+					instruc_2(1);
 				break;
 				case (char)0xEE:
-					instruc_2();
+					#ifdef DEBUG
+						printf("INSTRUCT_3\n");
+					#endif
+					instruc_3();
+				break;
+				default:
+					#ifdef DEBUG
+						printf("INSTRUCT_1\n");
+					#endif
+					instruc_1();
 				break;
 			}
 		break;
 
 		case (char)0x10:
+			#ifdef DEBUG
+				printf("INSTRUCT_4\n");
+			#endif
+			instruc_4();
 		break;
 		case (char)0x20:
+			#ifdef DEBUG
+				printf("INSTRUCT_5\n");
+			#endif
+			instruc_5();
 		break;
 		case (char)0x30:
+			#ifdef DEBUG
+				printf("INSTRUCT_6\n");
+			#endif
+			instruc_6();
 		break;
 		case (char)0x40:
+			#ifdef DEBUG
+				printf("INSTRUCT_7\n");
+			#endif
+			instruc_7();
 		break;
 		case (char)0x50:
+			#ifdef DEBUG
+				printf("INSTRUCT_8\n");
+			#endif
+			instruc_8();
 		break;
 		case (char)0x60:
+			#ifdef DEBUG
+				printf("INSTRUCT_9\n");
+			#endif
+			instruc_9();
 		break;
 		case (char)0x70:
+			#ifdef DEBUG
+				printf("INSTRUCT_10\n");
+			#endif
+			instruc_10();
 		break;
 		case (char)0x80:
+			switch(cpu0.dbyte2 & 0x0f)
+			{
+				case 0x0:
+					#ifdef DEBUG
+						printf("INSTRUCT_11\n");
+					#endif
+					instruc_11();
+				break;
+				case 0x1:
+					#ifdef DEBUG
+						printf("INSTRUCT_12\n");
+					#endif
+					instruc_12();
+				break;
+				case 0x2:
+					#ifdef DEBUG
+						printf("INSTRUCT_13\n");
+					#endif
+					instruc_13();
+				break;
+				case 0x3:
+					#ifdef DEBUG
+						printf("INSTRUCT_14\n");
+					#endif
+					instruc_14();
+				break;
+				case 0x4:
+					#ifdef DEBUG
+						printf("INSTRUCT_15\n");
+					#endif
+					instruc_15();
+				break;
+				case 0x5:
+					#ifdef DEBUG
+						printf("INSTRUCT_16\n");
+					#endif
+					instruc_16();
+				break;
+				case 0x6:
+					#ifdef DEBUG
+						printf("INSTRUCT_17\n");
+					#endif
+					instruc_17();
+				break;
+				case 0x7:
+					#ifdef DEBUG
+						printf("INSTRUCT_18\n");
+					#endif
+					instruc_18();
+				break;
+				case 0xE:
+					#ifdef DEBUG
+						printf("INSTRUCT_19\n");
+					#endif
+					instruc_19();
+				break;
+				default:
+					printf("ERROR IN THE DISPATCHER !\n");
+				break;
+			}
+				
 		break;
 		case (char)0x90:
+			#ifdef DEBUG
+				printf("INSTRUCT_20\n");
+			#endif
+			instruc_20();
 		break;
-		case (char)0xA0:
+		case 0xa0:
+			#ifdef DEBUG
+				printf("INSTRUCT_21\n");
+			#endif
+			instruc_21();
 		break;
-		case (char)0xB0:
+		case (char)0xb0:
+			#ifdef DEBUG
+				printf("INSTRUCT_22\n");
+			#endif
+			instruc_22();
 		break;
-		case (char)0xC0:
+		case (char)0xc0:
+			#ifdef DEBUG
+				printf("INSTRUCT_23\n");
+			#endif
+			instruc_23();
 		break;
-		case (char)0xD0:
+		case (char)0xd0:
+			#ifdef DEBUG
+				printf("INSTRUCT_24\n");
+			#endif
+			instruc_24();
 		break;
-		case (char)0xE0:
+		case (char)0xe0:
+			switch(cpu0.dbyte2)
+			{
+				case (char)0x9E:
+					#ifdef DEBUG
+						printf("INSTRUCT_25\n");
+					#endif
+					instruc_25();
+				break;
+				case (char)0xA1:
+					#ifdef DEBUG
+						printf("INSTRUCT_26\n");
+					#endif
+					instruc_26();
+				break;
+				default:
+					printf("ERROR IN THE DISPATCHER !\n");
+				break;
+			}
 		break;
-		case (char)0xF0:
+		case 0xf0:
+			switch(cpu0.dbyte2)
+			{
+				case 0x07:
+					#ifdef DEBUG
+						printf("INSTRUCT_27\n");
+					#endif
+					instruc_27();
+				break;
+				case 0x0A:
+					#ifdef DEBUG
+						printf("INSTRUCT_28\n");
+					#endif
+					instruc_28();
+				break;
+				case 0x15:
+					#ifdef DEBUG
+						printf("INSTRUCT_29\n");
+					#endif
+					instruc_29();
+				break;
+				case 0x18:
+					#ifdef DEBUG
+						printf("INSTRUCT_30\n");
+					#endif
+					instruc_30();
+				break;
+				case 0x1E:
+					#ifdef DEBUG
+						printf("INSTRUCT_31\n");
+					#endif
+					instruc_31();
+				break;
+				case 0x29:
+					#ifdef DEBUG
+						printf("INSTRUCT_32\n");
+					#endif
+					instruc_32();
+				break;
+				case 0x33:
+					#ifdef DEBUG
+						printf("INSTRUCT_33\n");
+					#endif
+					instruc_33();
+				break;
+				case 0x55:
+					#ifdef DEBUG
+						printf("INSTRUCT_34\n");
+					#endif
+					instruc_34();
+				break;
+				case 0x65:
+					#ifdef DEBUG
+						printf("INSTRUCT_35\n");
+					#endif
+					instruc_35();
+				break;
+				default:
+					printf("ERROR IN THE DISPATCHER !\n");
+				break;
+			}
 		break;
 		default:
+			printf("ERROR IN THE DISPATCHER !\n");
 		break;
 		}
 	}	
@@ -171,8 +373,13 @@ int main(int argc, char *argv[])
 	open_rom(argv[1]);
 	printf("HERE\n\n");
 	
-	
+	for(int i = 0 ; i < 20 ; i++)
+	{
+		emulate();
+		cpu0.ip = 2 * sizeof(char) + cpu0.ip;
+	}
 	#ifdef DEBUG
+	/*
 	char a = 0;
 	char b = 0;
 	for (int i = 0 ; i < 10 ; i++)
@@ -180,13 +387,13 @@ int main(int argc, char *argv[])
 		a = cpu0.memory[cpu0.ip] & 0xff;
 		b = cpu0.memory[cpu0.ip + 1] & 0xff;
 		
-		/*addr = (x & 0xf) << 8 | (y & 0xf)  << 4 | (nibble & 0xf) ;
+		addr = (x & 0xf) << 8 | (y & 0xf)  << 4 | (nibble & 0xf) ;
 		byte = (y & 0xf)  << 8 | (nibble & 0xf) ;
 		printf("%x - %x - ", addr, byte);// & 0xffffff);
-		printf("[%.02x:%.02x:%.02x]\n", x& 0xf, y& 0xf, nibble& 0xf);*/
+		printf("[%.02x:%.02x:%.02x]\n", x& 0xf, y& 0xf, nibble& 0xf);
 		printf("[%1x:%1x:%1x:%1x]\n", a & 0xf0, a & 0x0f, b & 0xf0, b & 0x0f);
 		cpu0.ip = cpu0.ip + 2 * sizeof(char);
-	}
+	}*/
 	#endif
 	
 	

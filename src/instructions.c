@@ -4,10 +4,10 @@
 #include "headers/instructions.h"
 #endif
 
+
 //0nnn - SYS addr
-void instruc_1(short addr)
+void instruc_1()
 {
-	cpu0.ip = addr;
 }
 
 //00E0 - CLS
@@ -19,6 +19,8 @@ void instruc_2()
 //00EE - RET
 void instruc_3()
 {
+	//cpu0.ip = (cpu0.dbyte1 & 0xff) << 4 | (cpu0.dbyte2 & 0xffff);
+	printf("\n ip = %x\n", cpu0.ip);
 
 }
 

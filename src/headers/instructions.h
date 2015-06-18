@@ -3,7 +3,11 @@
 #include "cpu.h"
 #endif
 
-void instruc_1(short addr);
+#include <stdlib.h>
+#include <stdio.h>
+
+
+void instruc_1();
 void instruc_2();
 void instruc_3();
 void instruc_4();
