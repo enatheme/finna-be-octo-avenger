@@ -3,8 +3,6 @@
 #include "headers/main.h"
 #endif
 
-#define DEBUG
-
 /*
 #include <stdlib.h>
 #include <stdio.h>
@@ -55,8 +53,7 @@ void emulate()
 	 * the op_code in documentation is "All instructions are 2 bytes long and are stored most-significant-byte first. In memory, the first byte of each instruction should be located at an even addresses. If a program includes sprite data, it should be padded so any instructions following it will be properly situated in RAM."
 	 * 
 	 * 			
-	 */  
-	
+	 * 
 	op_code = cpu0.memory[cpu0.ip] & 0xf0;
 	x = cpu0.memory[cpu0.ip] & 0x0f;
 	y = cpu0.memory[cpu0.ip + 1] & 0xf0;
@@ -64,52 +61,56 @@ void emulate()
 	
 	addr = (x & 0xf) << 8 | (y & 0xf)  << 4 | (nibble & 0xf) ;
 	byte = (y & 0xf)  << 4 | (nibble & 0xf) ;
+	 */  
+	
+	dbyte1 = cpu0.memory[cpu0.ip] & 0xff;
+	dbyte2 = cpu0.memory[cpu0.ip + 1] & 0xff;
 	
 	
-	switch(op_code)
+	switch(dbyte1)
 	{
-		case (dbyte2)0x0000:
+		case 0x00:
 		{
-			switch(dbyte1)
+			switch(dbyte2)
 			{
-				case (short)0xE0:
-					instruc_1(addr);
+				case (char)0xE0:
+					instruc_1(1);
 				break;
-				case (short)0xEE:
+				case (char)0xEE:
 					instruc_2();
 				break;
 			}
 		break;
 
-		case (short)0x1000:
+		case (char)0x10:
 		break;
-		case (short)0x2000:
+		case (char)0x20:
 		break;
-		case (short)0x3000:
+		case (char)0x30:
 		break;
-		case (short)0x4000:
+		case (char)0x40:
 		break;
-		case (short)0x5000:
+		case (char)0x50:
 		break;
-		case (short)0x6000:
+		case (char)0x60:
 		break;
-		case (short)0x7000:
+		case (char)0x70:
 		break;
-		case (short)0x8000:
+		case (char)0x80:
 		break;
-		case (short)0x9000:
+		case (char)0x90:
 		break;
-		case (short)0xA000:
+		case (char)0xA0:
 		break;
-		case (short)0xB000:
+		case (char)0xB0:
 		break;
-		case (short)0xC000:
+		case (char)0xC0:
 		break;
-		case (short)0xD000:
+		case (char)0xD0:
 		break;
-		case (short)0xE000:
+		case (char)0xE0:
 		break;
-		case (short)0xF000:
+		case (char)0xF0:
 		break;
 		default:
 		break;
