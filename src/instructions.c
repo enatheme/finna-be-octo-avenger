@@ -19,15 +19,16 @@ void instruc_2()
 //00EE - RET
 void instruc_3()
 {
-	//cpu0.ip = (cpu0.dbyte1 & 0xff) << 4 | (cpu0.dbyte2 & 0xffff);
-	printf("\n ip = %x\n", cpu0.ip);
 
 }
 
 //1nnn - JP addr
 void instruc_4()
 {
-
+	cpu0.ip = (cpu0.dbyte1 & 0x0f) << 8 | (cpu0.dbyte2 & 0xff);
+	#ifdef DEBUG
+		printf("\n ip = %03x\n", cpu0.ip & 0x0fff);
+	#endif
 }
 
 //2nnn - CALL addr
@@ -129,7 +130,7 @@ void instruc_20()
 //Annn - LD I, addr
 void instruc_21()
 {
-
+	cpu0.register_I = (cpu0.dbyte1 & 0x0f) << 8 | (cpu0.dbyte2 & 0xff);
 }
 
 //Bnnn - JP V0, addr

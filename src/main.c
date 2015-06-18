@@ -339,6 +339,7 @@ void open_rom(char *path)
 		fread(cpu0.memory + i, file_len, 1, ptr_file);
 		
 		#ifdef DEBUG
+		int h = 0;
 		while(i < file_len + 0x200)
 		{
 			//we print each nibble of the double byte
@@ -351,7 +352,9 @@ void open_rom(char *path)
 				printf("\n");
 			}
 			i+= 2 * sizeof(char);
+			h++;
 		}
+		printf("NBR = %d\n", h);
 		#endif
 		
 		fclose(ptr_file);
