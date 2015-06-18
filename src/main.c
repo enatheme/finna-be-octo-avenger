@@ -3,6 +3,8 @@
 #include "headers/main.h"
 #endif
 
+#define DEBUG
+
 /*
 #include <stdlib.h>
 #include <stdio.h>
@@ -24,7 +26,12 @@ void emulate()
 	char x = 0; //should be 4 bits name in the doc : x
 	char y = 0; //should be 4 bits name in the doc : y
 	char byte = 0; //name in the doc : kk or byte
-
+	
+	//cpu0.memory[cpu0.ip];
+	x = cpu0.memory[cpu0.ip + 1];
+	y = cpu0.memory[cpu0.ip + 2];
+	nibble = cpu0.memory[cpu0.ip + 3];
+	
 	//for eatch iteration, we read the memory of the program, load variables and send it to the function designated by the op_code
 	// this should be tested => opcode = (short)((cpu0.memory + ip  << 8) + cpu0.memory + ip + 1);
 	
@@ -98,21 +105,29 @@ void open_rom(char *path)
 
 		//read the rom
 		fread(cpu0.memory + i, file_len, 1, ptr_file);
+		
+		#ifdef DEBUG
 		while(i < file_len + 0x200)
 		{
-			printf("%.2X", cpu0.memory[i]);
-			i+= sizeof(char);
+			//we print each nibble of the double byte
+			printf("%.02x-", cpu0.memory[i]& 0xff);
+			printf("%.02x-", cpu0.memory[i + 1]& 0xff);
+			printf("%.02x-", cpu0.memory[i + 2]& 0xff);
+			printf("%.02x  ", cpu0.memory[i + 3]& 0xff);
 			if (i % 4 == 3)
 			{
 				printf(" ");
 			}
 
-			// Display 16 bytes per line
-			if (i % 16 == 15)
+			// Display 4 double bytes per line
+			if (i % 16 == 4)
 			{
 				printf("\n");
 			}
+			i+= 4 * sizeof(char);
 		}
+		#endif
+		
 		fclose(ptr_file);
 	}
 	else
