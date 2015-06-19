@@ -76,19 +76,19 @@ void instruc_11()
 //8xy1 - OR Vx, Vy
 void instruc_12()
 {
-
+	cpu0.registers[cpu0.dbyte1 & 0x0f] = cpu0.registers[cpu0.dbyte1 & 0x0f] | cpu0.registers[cpu0.dbyte2 & 0xf0];
 }
 
 //8xy2 - AND Vx, Vy
 void instruc_13()
 {
-
+	cpu0.registers[cpu0.dbyte1 & 0x0f] = cpu0.registers[cpu0.dbyte1 & 0x0f] & cpu0.registers[cpu0.dbyte2 & 0xf0];
 }
 
 //8xy3 - XOR Vx, Vy
 void instruc_14()
 {
-
+	cpu0.registers[cpu0.dbyte1 & 0x0f] = cpu0.registers[cpu0.dbyte1 & 0x0f] ^ cpu0.registers[cpu0.dbyte2 & 0xf0];
 }
 
 //8xy4 - ADD Vx, Vy
