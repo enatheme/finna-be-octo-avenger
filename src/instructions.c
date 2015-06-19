@@ -34,7 +34,9 @@ void instruc_4()
 //2nnn - CALL addr
 void instruc_5()
 {
-
+	cpu0.memory[cpu0.sp] = cpu0.ip & 0xfff;
+	cpu0.sp++;
+	cpu0.ip = (cpu0.dbyte1 & 0x0f) << 8 | (cpu0.dbyte2 & 0xff);
 }
 
 //3xkk - SE Vx, byte
@@ -58,7 +60,7 @@ void instruc_8()
 //6xkk - LD Vx, byte
 void instruc_9()
 {
-
+	cpu0.registers[cpu0.dbyte1 & 0x0f] = cpu0.dbyte2 & 0xff;
 }
 
 //7xkk - ADD Vx, byte
@@ -70,7 +72,7 @@ void instruc_10()
 //8xy0 - LD Vx, Vy
 void instruc_11()
 {
-
+	cpu0.registers[cpu0.dbyte1 & 0x0f] = cpu0.registers[cpu0.dbyte2 & 0xf0];
 }
 
 //8xy1 - OR Vx, Vy

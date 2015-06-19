@@ -338,6 +338,11 @@ void open_rom(char *path)
 		//read the rom
 		fread(cpu0.memory + i, file_len, 1, ptr_file);
 		
+		//we adjust register
+		cpu0.ip = 0x200;
+		cpu0.bp = cpu0.ip + file_len + 1;
+		cpu0.sp = cpu0.bp;
+		
 		#ifdef DEBUG
 		int h = 0;
 		while(i < file_len + 0x200)
@@ -372,9 +377,7 @@ void open_rom(char *path)
 //argv[1] = filepath to the rom
 int main(int argc, char *argv[])
 {
-	cpu0.ip = 0x200;
 	open_rom(argv[1]);
-	printf("HERE\n\n");
 	
 	for(int i = 0 ; i < 20 ; i++)
 	{
